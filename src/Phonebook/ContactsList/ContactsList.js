@@ -1,9 +1,13 @@
 import s from './ContactsList.module.css';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFilteredContacts } from '../../redux/contacts/selectors';
 import action from '../../redux/contacts/action';
-import PropTypes from 'prop-types';
 
-const ContactsList = ({ contacts, handleDelete }) => {
+const ContactsList = () => {
+  const contacts = useSelector(getFilteredContacts);
+  const dispatch = useDispatch();
+
+  const onDeleteContacts = e => dispatch(action.handleDelete(e.target.id));
   return (
     <ul className={s.list}>
       {contacts.map(contact => (
@@ -13,7 +17,7 @@ const ContactsList = ({ contacts, handleDelete }) => {
             className={s.deleteButton}
             type="button"
             id={contact.id}
-            onClick={handleDelete}
+            onClick={onDeleteContacts}
           >
             Delete
           </button>
@@ -23,24 +27,4 @@ const ContactsList = ({ contacts, handleDelete }) => {
   );
 };
 
-const handleFilter = (allContacts, filter) => {
-  const normalizedFilter = filter.toLowerCase();
-  return allContacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter),
-  );
-};
-
-const mapStateToProps = state => ({
-  contacts: handleFilter(state.items, state.filter),
-});
-
-const mapDispatchToProps = dispatch => ({
-  handleDelete: e => dispatch(action.handleDelete(e.target.id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactsList);
-
-ContactsList.propTypes = {
-  contacts: PropTypes.array.isRequired,
-  handleDelete: PropTypes.func.isRequired,
-};
+export default ContactsList;

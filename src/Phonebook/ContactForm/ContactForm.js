@@ -1,12 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import action from '../../redux/contacts/action';
-import { connect } from 'react-redux';
-
 import s from './ContactForm.module.css';
 
-const ContactForm = ({ addNewContact }) => {
+const ContactForm = () => {
+  const dispatch = useDispatch();
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -31,7 +32,7 @@ const ContactForm = ({ addNewContact }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    addNewContact(name, number);
+    dispatch(action.addNewContact(name, number));
     resetForm();
   };
 
@@ -77,8 +78,4 @@ const ContactForm = ({ addNewContact }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  addNewContact: (name, number) => dispatch(action.addNewContact(name, number)),
-});
-
-export default connect(null, mapDispatchToProps)(ContactForm);
+export default ContactForm;
