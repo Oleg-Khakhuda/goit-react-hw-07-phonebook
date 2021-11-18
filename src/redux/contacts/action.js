@@ -14,4 +14,6 @@ const addNewContact = createAction(types.ADD, (name, number) => {
 const handleDelete = createAction(types.DELETE);
 const changeFilter = createAction(types.CHANGE_FILTER);
 
-export default { addNewContact, handleDelete, changeFilter };
+const action = { addNewContact, handleDelete, changeFilter };
+
+export default action;
