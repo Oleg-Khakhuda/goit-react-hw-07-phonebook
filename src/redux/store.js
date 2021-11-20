@@ -6,4 +6,5 @@ export const store = configureStore({
     contacts: contactReducer,
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware(),
+  devTools: process.env.NODE_ENV === 'development',
 });
