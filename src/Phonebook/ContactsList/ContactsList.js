@@ -1,18 +1,24 @@
 import s from './ContactsList.module.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { getFilteredContacts } from '../../redux/contacts/selectors';
-import action from '../../redux/contacts/action';
+import { useEffect } from 'react';
+import operations from '../../redux/contacts/contact-operations';
 
 const ContactsList = () => {
   const contacts = useSelector(getFilteredContacts);
   const dispatch = useDispatch();
 
-  const onDeleteContacts = e => dispatch(action.handleDelete(e.target.id));
+  useEffect(() => {
+    dispatch(operations.fetchContacts());
+  }, [dispatch]);
+
+  const onDeleteContacts = e => dispatch(operations.deleteContact(e.target.id));
+
   return (
     <ul className={s.list}>
       {contacts.map(contact => (
         <li className={s.listItem} key={contact.id}>
-          {contact.name}: {contact.number}
+          {contact.name}: {contact.phone}
           <button
             className={s.deleteButton}
             type="button"
